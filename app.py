@@ -4,7 +4,7 @@ MRP Planning Intelligence
 Built by Rutwik Satish | MS Engineering Management + Graduate Certificate in Supply Chain
 Northeastern University
 
-A combined demand sensing and lot sizing optimization tool for manufacturing planners.
+A combined demand-sensing and lot-sizing optimization tool for manufacturing planners.
 Takes raw historical usage data, classifies the demand pattern, generates a statistical
 forecast, feeds it into the MRP lot sizing engine, and outputs a buyer-ready order schedule
 with full cost justification — in under 3 minutes per component.
@@ -950,9 +950,9 @@ with tab2:
         text="Optimal", showarrow=False,
         font=dict(color=GREEN, size=12, family="Inter"),
     )
-    chart_no_legend = {k: v for k, v in CHART.items() if k != "legend"}
+    _chart_nol = {k: v for k, v in CHART.items() if k != "legend"}
     fig_bar.update_layout(
-        **chart_no_legend, barmode="stack", height=340,
+        **_chart_nol, barmode="stack", height=340,
         title=dict(text="Total Cost = Ordering Cost + Holding Cost", font=dict(size=13, color=T_SEC)),
         xaxis_title="", yaxis_title="Total Cost ($)",
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
@@ -1031,7 +1031,11 @@ Recommended method: <b style="color:{T_PRI};">{rec_lot}</b>. {rationale}
             elif col == "Net Req" and val > 0:
                 color = AMBER; bg = f"background:#1a1200;"
             align = "right" if i > 0 else "left"
-            cells += f'<td style="padding:0.38rem 0.75rem;text-align:{align};font-family:IBM Plex Mono,monospace;font-size:0.8rem;color:{color};border-bottom:1px solid {BORDER};{bg}">{int(val):,}</td>'
+            try:
+                display_val = f"{int(val):,}"
+            except (ValueError, TypeError):
+                display_val = str(val)
+            cells += f'<td style="padding:0.38rem 0.75rem;text-align:{align};font-family:IBM Plex Mono,monospace;font-size:0.8rem;color:{color};border-bottom:1px solid {BORDER};{bg}">{display_val}</td>'
         mrp_rows_html += f"<tr>{cells}</tr>"
 
     st.markdown(f"""
