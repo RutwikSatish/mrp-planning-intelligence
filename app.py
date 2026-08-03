@@ -950,11 +950,14 @@ with tab2:
         text="Optimal", showarrow=False,
         font=dict(color=GREEN, size=12, family="Inter"),
     )
+    chart_no_legend = {k: v for k, v in CHART.items() if k != "legend"}
     fig_bar.update_layout(
-        **CHART, barmode="stack", height=340,
+        **chart_no_legend, barmode="stack", height=340,
         title=dict(text="Total Cost = Ordering Cost + Holding Cost", font=dict(size=13, color=T_SEC)),
         xaxis_title="", yaxis_title="Total Cost ($)",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
+                    bgcolor="rgba(0,0,0,0)", bordercolor=BORDER, borderwidth=1,
+                    font=dict(color=T_SEC)),
     )
     st.plotly_chart(fig_bar, width="stretch")
     cite("Jacobs, Berry, Whybark & Vollmann (2011) Ch. 4 | Silver & Meal (1973) | Wagner & Whitin (1958) — benchmark lower bound")
